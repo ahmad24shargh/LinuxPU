@@ -577,15 +577,15 @@ jobs:
           elif  [ "${{ env.ksu_fork }}" == "KSUN" ];then
             zip ./downloaded-artifacts/lpud_overlayfs-aarch64-linux-android/aarch64-linux-android/release/lpud_overlayfs-aarch64-linux-android.zip ./downloaded-artifacts/lpud_overlayfs-aarch64-linux-android/aarch64-linux-android/release/lpud || true
             zip ./downloaded-artifacts/lpud_magic-aarch64-linux-android/aarch64-linux-android/release/lpud_magic-aarch64-linux-android.zip ./downloaded-artifacts/lpud_magic-aarch64-linux-android/aarch64-linux-android/release/lpud || true
-            #[ -e ./downloaded-artifacts/lpud_overlayfs-aarch64-linux-android/aarch64-linux-android/release/lpud.d ] && rm -rf ./downloaded-artifacts/lpud_overlayfs-aarch64-linux-android/aarch64-linux-android/release/lpud.d
+            [ -e ./downloaded-artifacts/lpud_overlayfs-aarch64-linux-android/aarch64-linux-android/release/lpud.d ] && rm -rf ./downloaded-artifacts/lpud_overlayfs-aarch64-linux-android/aarch64-linux-android/release/lpud.d
           fi
           
           
       - name: release
         if: ${{ env.build_type == 'build_all' }}
-        uses: softprops/action-gh-release@v2.2.2
+        uses: softprops/action-gh-release@v2.2.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
           name: ${{ env.RELEASE_NAME }}
           tag_name: ${{ env.C_TAG_NAME }}  # Use the generated tag for the release
           prerelease: false  # Mark the release as a pre-release
