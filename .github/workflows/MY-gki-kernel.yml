@@ -736,6 +736,7 @@ jobs:
           #export CC_ARG="${CC}"
           BUILD_CONFIG='common/build.config.gki.aarch64'
           #BUILD_CONFIG='nothing'
+          sed -i -e '/^KMI_SYMBOL_LIST_STRICT_MODE=/d' -e '/^TRIM_NONLISTED_KMI=/d' -e '/^KMI_ENFORCED=/d' -e '$a\KMI_SYMBOL_LIST_STRICT_MODE=0' -e '$a\TRIM_NONLISTED_KMI=0' -e '$a\KMI_ENFORCED=0' -e '/^MODULES_ORDER=/d' -e '/^MODULES_LIST=/d' common/build.config.gki.aarch64
 
           if [ ${{ env.selinux_permissive }} == 'true' ];then
             if grep -Eq '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig;then cmdline_str=$(echo "CONFIG_CMDLINE=\"$(grep -E '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig | cut -d '"' -f2) selinux=0\"");else cmdline_str='CONFIG_CMDLINE="selinux=0"';fi
