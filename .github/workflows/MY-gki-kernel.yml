@@ -764,7 +764,7 @@ jobs:
               BUILD_CONFIG='common/build.config.msm.topaz'
               sed -i -e '/build.config.msm.common/d' -e '/build.config.msm.gki/d'  common/build.config.msm.topaz
               for file in $(find ./common/ -maxdepth 1 -type f -name 'build*' 2>/dev/null);do sed -i 's|msm-kernel/|common/|g' $file;done
-              for file in $(find common/arch/arm64/configs/vendor -type f -name 'topaz*' 2>/dev/null);do ./common/scripts/kconfig/merge_config.sh -m -r -y $file;done
+              #for file in $(find common/arch/arm64/configs/vendor -type f -name 'topaz*' 2>/dev/null);do ./common/scripts/kconfig/merge_config.sh -m -r -y $file;done
             fi
             #if [ -f ./common/arch/arm64/configs/topaz_defconfig ];then
               #bash ./common/scripts/kconfig/merge_config.sh -m ${repo_path}/.defconfig ./common/arch/arm64/configs/gki_defconfig
