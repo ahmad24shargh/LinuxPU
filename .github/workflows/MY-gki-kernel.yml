@@ -605,7 +605,7 @@ jobs:
             for i in {0..6};do options+=(false);done
             case "${{ inputs.manager_supports }}" in 'All managers') for i in $(seq 0 $((${#options[@]}-1)));do options[$i]=true;done;;'none') for i in $(seq 0 $((${#options[@]}-1)));do options[$i]=false;done;;'official') options[0]=true;;'rsuntk') options[1]=true;;'backslashxx') options[2]=true;;'kernelsu-next') options[3]=true;;'mksu') options[4]=true;;'sukisu') options[5]=true;;'wild-ksun') options[6]=true;;*) for i in $(seq 0 $((${#options[@]}-1)));do options[$i]=false;done;;esac
             #options="${{ inputs.manager_supports }}" 
-            echo "${options}"
+            #echo "${options}"
             if [[ ${options[*]} =~ true ]];then
               #default_size=$(grep -Eo '[^[:space:]]+_(EXPECTED|MANAGER)_SIZE := [0-9a-fA-FXx]+' ${repo_path}/kernel/Makefile 2>/dev/null | cut -d' ' -f3)
               #test -z ${default_size} && exit 1
@@ -667,7 +667,7 @@ jobs:
                 fi
               fi
               SUPPORTED_MANAGER_COUNT="${#managers_size[@]}"
-              for (( i=0; i<$SUPPORTED_MANAGER_COUNT; i++ )); do echo "${managers_size[$i]}:${managers_hash[$i]}" ; done
+              #for (( i=0; i<$SUPPORTED_MANAGER_COUNT; i++ )); do echo "${managers_size[$i]}:${managers_hash[$i]}" ; done
               grep -Eq 'apk_sign_keys\[\] =.+' ${repo_path}/kernel/apk_sign.c
               if [ $? -eq 0 ];then
                 temp_str="$(grep -E '.+apk_sign_keys\[\] = .*' ${repo_path}/kernel/apk_sign.c 2>/dev/null)\n"
@@ -714,7 +714,7 @@ jobs:
             for files in $(grep -R ${repo_path}/kernel -e 'KSURC' 2>/dev/null | grep -v 'https' | cut -d':' -f1 | sort | uniq);do sed -i 's#KSURC#LPURC#g' $files;done
             for files in $(grep -R ${repo_path}/kernel -e 'ksu' 2>/dev/null | grep -v 'https' | cut -d':' -f1 | sort | uniq);do echo $files;sed -i 's#ksu#lpu#g' $files;done
             files=('/fs/Makefile' '/fs/Kconfig' '/fs/dcache.c' '/fs/devpts/inode.c' '/fs/exec.c' '/fs/namei.c' '/fs/namespace.c' '/fs/notify/fdinfo.c' '/fs/open.c' '/fs/overlayfs/inode.c' '/fs/overlayfs/readdir.c' '/fs/overlayfs/super.c' '/fs/proc/bootconfig.c' '/fs/proc/fd.c' '/fs/proc/task_mmu.c' '/fs/proc_namespace.c' '/fs/readdir.c' '/fs/stat.c' '/fs/statfs.c' '/include/linux/mount.h' '/include/linux/sched.h' '/kernel/kallsyms.c' '/kernel/sys.c' '/drivers/input/input.c' '/drivers/tty/pty.c' '/fs/read_write.c' '/drivers/Makefile' '/drivers/Kconfig' '/include/linux/sus_su.h' '/include/linux/susfs_def.h' '/include/linux/susfs.h' '/fs/sus_su.c' '/fs/susfs.c' '/security/selinux/avc.c')
-            for each in "${files[@]}";do if [ -f "./common${each}" ];then grep -Eio '[^ ]*(ksu|sukisu|KERNEL_SU|kernelsu)[^ ]*' ./common${each};sed -E -i -e 's|KSU|LPU|g' -e 's|KERNEL_SU|LINUXXPU|g' -e  '/REPO_(OWNER|NAME)( :)?=/! s/KernelSU/LinuxxPU/g' -e 's|ksu|lpu|g' -e '/REPO_(OWNER|NAME)( :)?=/! s/SukiSU-Ultra/LINUXXPU/g' -e 's|sukisu|linuxxpu|g' -e '/REPO_(OWNER|NAME)( :)?=/! s/SukiSU Ultra/LINUXXPU/g' -e 's|SUKISU|LINUXXPU|g'  -e '/REPO_(OWNER|NAME)( :)?=/! s/SukiSU/LinuxxPU/g' -e 's|kernelsu|linuxxpu|g' ./common${each};fi;done
+            for each in "${files[@]}";do if [ -f "./common${each}" ];then sed -E -i -e 's|KSU|LPU|g' -e 's|KERNEL_SU|LINUXXPU|g' -e  '/REPO_(OWNER|NAME)( :)?=/! s/KernelSU/LinuxxPU/g' -e 's|ksu|lpu|g' -e '/REPO_(OWNER|NAME)( :)?=/! s/SukiSU-Ultra/LINUXXPU/g' -e 's|sukisu|linuxxpu|g' -e '/REPO_(OWNER|NAME)( :)?=/! s/SukiSU Ultra/LINUXXPU/g' -e 's|SUKISU|LINUXXPU|g'  -e '/REPO_(OWNER|NAME)( :)?=/! s/SukiSU/LinuxxPU/g' -e 's|kernelsu|linuxxpu|g' ./common${each};fi;done
             #for file in $(grep -Elr 'KSU|kernelsu|ksuid' ./common/fs ./common/include ./common/kernel ./common/security ./common/drivers 2>/dev/null | sort | uniq);do
               #echo "$file"
               #sed -i -e 's/ksuid/lpuid/g' -e 's/kernelsu/linuxxpu/g' -e 's/KSU/LPU/g' $file
@@ -749,16 +749,16 @@ jobs:
 
           if [[ "${{ env.kernel_variant }}" == "chickernel" ]];then
             sed -i '/kernelsu/d' ./common/drivers/Kconfig
-            grep -i 'linuxxpu' ./common/drivers/Kconfig
+            #grep -i 'linuxxpu' ./common/drivers/Kconfig
             sed -i '/kernelsu/d' ./common/drivers/Makefile
-            grep -E -i 'CONFIG_(KSU|LPU)' ./common/drivers/Makefile
+            #grep -E -i 'CONFIG_(KSU|LPU)' ./common/drivers/Makefile
             rm -f ./common/drivers/kernelsu || true
             BUILD_CONFIG='common/build.config.gki.aarch64.chickernel'
             rm -f ./common/arch/arm64/configs/chickernel_defconfig ./common/arch/arm64/configs/defconfig
             cp  ./common/arch/arm64/configs/gki_defconfig ./common/arch/arm64/configs/chickernel_defconfig
             cp  ./common/arch/arm64/configs/gki_defconfig ./common/arch/arm64/configs/defconfig
             #revert commite fed0402  to unspoof /proc/config.gz
-            for file in $(grep -e 'arch/arm64/configs/khaje-stock_defconfig' ./common/kernel/* 2>/dev/null | cut -d':' -f1);do sed -i 's|config_data\: arch/arm64/configs/khaje-stock_defconfig|config_data\: \$\(KCONFIG_CONFIG\)|g' $file;grep 'KCONFIG_CONFIG' $file;done
+            for file in $(grep -e 'arch/arm64/configs/khaje-stock_defconfig' ./common/kernel/* 2>/dev/null | cut -d':' -f1);do sed -i 's|config_data\: arch/arm64/configs/khaje-stock_defconfig|config_data\: \$\(KCONFIG_CONFIG\)|g' $file;done
           elif [[ "${{ env.kernel_variant }}" == *"topnotchfreaks"* ]];then  
             #BUILD_CONFIG='common/build.config.msm.bengal.le'
             #if [ -f common/build.config.msm.topaz ];then 
@@ -775,7 +775,7 @@ jobs:
             #cp  ./common/arch/arm64/configs/gki_defconfig ./common/arch/arm64/configs/generic_bengal_defconfig
             cp  ./common/arch/arm64/configs/gki_defconfig ./common/arch/arm64/configs/defconfig
             #revert commite 2030317  to unspoof /proc/config.gz
-            for file in $(grep -e 'arch/arm64/configs/topaz_defconfig' ./common/kernel/* 2>/dev/null | cut -d':' -f1);do sed -i 's|config_data\: arch/arm64/configs/topaz_defconfig|config_data\: \$\(KCONFIG_CONFIG\)|g' $file;grep 'KCONFIG_CONFIG' $file;done
+            for file in $(grep -e 'arch/arm64/configs/topaz_defconfig' ./common/kernel/* 2>/dev/null | cut -d':' -f1);do sed -i 's|config_data\: arch/arm64/configs/topaz_defconfig|config_data\: \$\(KCONFIG_CONFIG\)|g' $file;done
             #ln -s common msm-kernel
           fi
             
@@ -799,7 +799,7 @@ jobs:
             #for ndk
             mkdir -p ./out/${CONFIG}/common && cp ./common/arch/arm64/configs/gki_defconfig ./out/${CONFIG}/common/.config
             mkdir -p ./out/$(echo ${CONFIG} | cut -d'-' -f1,2)/common && cp ./common/arch/arm64/configs/gki_defconfig ./out/$(echo ${CONFIG} | cut -d'-' -f1,2)/common/.config
-            grep -Ei 'ksu|lpu|susfs' ./out/${CONFIG}/common/.config 
+            #grep -Ei 'ksu|lpu|susfs' ./out/${CONFIG}/common/.config 
             if [ "${BUILD_CONFIG}" != "nothing" ];then
               LTO=thin BUILD_CONFIG=${BUILD_CONFIG} SKIP_EXT_MODULES=1 SKIP_CP_KERNEL_HDR=1 SKIP_VENDOR_BOOT=1 SKIP_MRPROPER=1 SYSTEM_DLKM_RE_SIGN=0 BUILD_SYSTEM_DLKM=0 KMI_SYMBOL_LIST_STRICT_MODE=0 build/build.sh CC="${CC}" 
             else
