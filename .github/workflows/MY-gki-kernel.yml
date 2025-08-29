@@ -579,6 +579,20 @@ jobs:
           #else
           #echo "CONFIG_KSU_SUSFS_SUS_SU=y" >> ./common/arch/arm64/configs/gki_defconfig
           #fi
+
+      - name: Adding log reduction and debug reduction configurations
+        run: |
+          cd "$CONFIG"
+          echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_AUDITSYSCALL=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_CONSOLE_LOGLEVEL_DEFAULT=3
+          echo "CONFIG_CONSOLE_LOGLEVEL_QUIET=3
+          echo "CONFIG_MESSAGE_LOGLEVEL_DEFAULT=3
+          echo "CONFIG_DEBUG_BUGVERBOSE=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_DEBUG_INFO=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig   
+          echo "CONFIG_DEBUG_MISC=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_PRINTK=n" >> ./common/arch/arm64/configs/gki_defconfig
         
       - name: Build kernel
         env:
@@ -778,7 +792,8 @@ jobs:
             for file in $(grep -e 'arch/arm64/configs/topaz_defconfig' ./common/kernel/* 2>/dev/null | cut -d':' -f1);do sed -i 's|config_data\: arch/arm64/configs/topaz_defconfig|config_data\: \$\(KCONFIG_CONFIG\)|g' $file;done
             #ln -s common msm-kernel
           fi
-            
+
+          
           echo "Building the kernel..."
           if [ -f "build/build.sh" ]; then
             sed -i 's/-dirty//' ./common/scripts/setlocalversion
