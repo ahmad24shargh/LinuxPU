@@ -33,7 +33,7 @@ on:
       ksu_fork:
         type: choice
         description: 'Which ksu fork should be made?'
-        default: 'KSUN'
+        default: 'SUKISU'
         required: true
         options:
           - KSUN
