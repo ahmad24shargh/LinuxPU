@@ -584,6 +584,9 @@ jobs:
         #if: false
         run: |
           cd "$CONFIG"
+          if [ ! -f ./common/security/selinux/include/flask.h ];then
+            cp  ../kernel_patches/flask.h ./common/security/selinux/include/
+          fi
           echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_AUDITSYSCALL=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CONSOLE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
