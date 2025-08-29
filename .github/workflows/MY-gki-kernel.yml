@@ -584,11 +584,17 @@ jobs:
         #if: false
         run: |
           cd "$CONFIG"
-          if [ ! -f ./common/security/selinux/include/flask.h ];then
-            cp  ../kernel_patches/flask.h ./common/security/selinux/include/
-          fi
-          echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_AUDITSYSCALL=n" >> ./common/arch/arm64/configs/gki_defconfig
+          #if [ ! -f ./common/security/selinux/include/flask.h ];then
+            #cp  ../kernel_patches/flask.h ./common/security/selinux/include/
+          #fi
+          #echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_AUDITSYSCALL=n" >> ./common/arch/arm64/configs/gki_defconfig
+          if grep -Eq '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig;then cmdline_str=$(echo "CONFIG_CMDLINE=\"$(grep -E '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig | cut -d '"' -f2) audit=0\"");else cmdline_str='CONFIG_CMDLINE="audit=0"';fi
+          echo $cmdline_str
+          sed -i -e '/CONFIG_CMDLINE=/d' -e '/CONFIG_SECURITY_SELINUX_BOOTPARAM/d' ./common/arch/arm64/configs/gki_defconfig
+          echo "$cmdline_str" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_CMDLINE_EXTEND=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_SECURITY_SELINUX_BOOTPARAM=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CONSOLE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CONSOLE_LOGLEVEL_QUIET=3" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_MESSAGE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
