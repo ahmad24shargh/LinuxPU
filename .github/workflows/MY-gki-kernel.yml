@@ -256,13 +256,13 @@ jobs:
             rm $CONFIG/common/arch/arm64/configs/gki_defconfig 
             cp $CONFIG/common/arch/arm64/configs/chickernel_defconfig $CONFIG/common/arch/arm64/configs/gki_defconfig
             rm -rf $CONFIG/common/KernelSU-Next
-          elif [[ "${{ env.kernel_variant }}" == *"topnotchfreaks"* ]];then
-            if [ -f $CONFIG/common/arch/arm64/configs/topaz_defconfig ];then
-              #bash $CONFIG/common/scripts/kconfig/merge_config.sh -m $CONFIG/common/arch/arm64/configs/gki_defconfig $CONFIG/common/arch/arm64/configs/topaz_defconfig
-              #mv -f .config $CONFIG/common/arch/arm64/configs/gki_defconfig
-              rm $CONFIG/common/arch/arm64/configs/gki_defconfig 
-              cp $CONFIG/common/arch/arm64/configs/topaz_defconfig $CONFIG/common/arch/arm64/configs/gki_defconfig
-            fi
+          #elif [[ "${{ env.kernel_variant }}" == *"topnotchfreaks"* ]];then
+            #if [ -f $CONFIG/common/arch/arm64/configs/topaz_defconfig ];then
+              ##bash $CONFIG/common/scripts/kconfig/merge_config.sh -m $CONFIG/common/arch/arm64/configs/gki_defconfig $CONFIG/common/arch/arm64/configs/topaz_defconfig
+              ##mv -f .config $CONFIG/common/arch/arm64/configs/gki_defconfig
+              #rm $CONFIG/common/arch/arm64/configs/gki_defconfig 
+              #cp $CONFIG/common/arch/arm64/configs/topaz_defconfig $CONFIG/common/arch/arm64/configs/gki_defconfig
+            #fi
           fi
           sed -i '/LOCALVERSION/d' $CONFIG/common/arch/arm64/configs/gki_defconfig
           echo 'CONFIG_LOCALVERSION=""' >> $CONFIG/common/arch/arm64/configs/gki_defconfig
