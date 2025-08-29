@@ -586,9 +586,9 @@ jobs:
           cd "$CONFIG"
           echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_AUDITSYSCALL=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CONSOLE_LOGLEVEL_DEFAULT=3
-          echo "CONFIG_CONSOLE_LOGLEVEL_QUIET=3
-          echo "CONFIG_MESSAGE_LOGLEVEL_DEFAULT=3
+          echo "CONFIG_CONSOLE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_CONSOLE_LOGLEVEL_QUIET=3" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_MESSAGE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_DEBUG_BUGVERBOSE=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_DEBUG_INFO=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig   
