@@ -581,6 +581,7 @@ jobs:
           #fi
 
       - name: Adding log reduction and debug reduction configurations
+        #if: false
         run: |
           cd "$CONFIG"
           echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
@@ -593,6 +594,7 @@ jobs:
           echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig   
           echo "CONFIG_DEBUG_MISC=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_PRINTK=n" >> ./common/arch/arm64/configs/gki_defconfig
+          sed -i 's/CONFIG_KSU_SUSFS_ENABLE_LOG=y/CONFIG_KSU_SUSFS_ENABLE_LOG=n/g' ./common/arch/arm64/configs/gki_defconfig
         
       - name: Build kernel
         env:
