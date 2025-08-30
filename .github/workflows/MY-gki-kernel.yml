@@ -598,11 +598,11 @@ jobs:
           echo "CONFIG_CONSOLE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CONSOLE_LOGLEVEL_QUIET=3" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_MESSAGE_LOGLEVEL_DEFAULT=3" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_DEBUG_BUGVERBOSE=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_DEBUG_INFO=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig   
-          echo "CONFIG_DEBUG_MISC=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_PRINTK=n" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_DEBUG_BUGVERBOSE=n" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_DEBUG_INFO=n" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig   
+          #echo "CONFIG_DEBUG_MISC=n" >> ./common/arch/arm64/configs/gki_defconfig
+          #echo "CONFIG_PRINTK=n" >> ./common/arch/arm64/configs/gki_defconfig
           sed -i 's/CONFIG_KSU_SUSFS_ENABLE_LOG=y/CONFIG_KSU_SUSFS_ENABLE_LOG=n/g' ./common/arch/arm64/configs/gki_defconfig
         
       - name: Build kernel
@@ -882,7 +882,7 @@ jobs:
 
           echo "Building boot.img"
           #My added --cmdline to default options
-          $MKBOOTIMG --cmdline 'audit=0' --header_version 4 --kernel Image --output boot.img
+          $MKBOOTIMG --cmdline 'audit=0 printk.devkmsg=off' --header_version 4 --kernel Image --output boot.img
           $AVBTOOL add_hash_footer --partition_name boot --partition_size $((64 * 1024 * 1024)) --image boot.img --algorithm SHA256_RSA2048 --key $BOOT_SIGN_KEY_PATH
           zip boot.img.zip boot.img
           cp ./boot.img.zip ../${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-boot.img.zip
