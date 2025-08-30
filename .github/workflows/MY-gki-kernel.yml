@@ -589,7 +589,8 @@ jobs:
           #fi
           #echo "CONFIG_AUDIT=n" >> ./common/arch/arm64/configs/gki_defconfig
           #echo "CONFIG_AUDITSYSCALL=n" >> ./common/arch/arm64/configs/gki_defconfig
-          if grep -Eq '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig;then cmdline_str=$(echo "CONFIG_CMDLINE=\"$(grep -E '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig | cut -d '"' -f2) audit=0 loglevel=2 printk.devkmsg=off\"");else cmdline_str='CONFIG_CMDLINE="audit=0 loglevel=2 printk.devkmsg=off"';fi
+          # mminit_loglevel=0
+          if grep -Eq '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig;then cmdline_str=$(echo "CONFIG_CMDLINE=\"$(grep -E '^CONFIG_CMDLINE=.+' ./common/arch/arm64/configs/gki_defconfig | cut -d '"' -f2) audit=0 loglevel=2 printk.devkmsg=off quiet\"");else cmdline_str='CONFIG_CMDLINE="audit=0 loglevel=2 printk.devkmsg=off quiet"';fi
           echo $cmdline_str
           sed -i -e '/CONFIG_CMDLINE=/d' -e '/CONFIG_SECURITY_SELINUX_BOOTPARAM/d' ./common/arch/arm64/configs/gki_defconfig
           echo "$cmdline_str" >> ./common/arch/arm64/configs/gki_defconfig
