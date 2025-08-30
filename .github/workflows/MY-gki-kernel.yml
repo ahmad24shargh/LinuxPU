@@ -601,7 +601,6 @@ jobs:
           echo "CONFIG_DEBUG_BUGVERBOSE=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_DEBUG_INFO=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig   
-          echo "CONFIG_EXPERT=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_DEBUG_MISC=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_PRINTK=n" >> ./common/arch/arm64/configs/gki_defconfig
           sed -i 's/CONFIG_KSU_SUSFS_ENABLE_LOG=y/CONFIG_KSU_SUSFS_ENABLE_LOG=n/g' ./common/arch/arm64/configs/gki_defconfig
